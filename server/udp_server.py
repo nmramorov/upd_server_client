@@ -21,9 +21,13 @@ class UDPServer:
         return payload[1].split(':')[1][2:]
 
     def run(self):
+        """
+        Упражнение : Интегрировать XmlEditor сюда
+        """
         response = None
         socket_server = self._initialize()
         print("UDP server up and listening")
+        e = XmlEditor()
         
         while True:
             bytes_response = socket_server.recvfrom(self.buffer_size)
@@ -40,10 +44,12 @@ class UDPServer:
 
             if command == 'set':
                 channel, channel_state = params[2], params[3][:-1]
+                e.write(channel, channel_state)
                 response = f'Set {channel} to {channel_state}'
             elif command == 'check':
                 channel = params[2][:-1]
-                response = f'{channel} has value 1'
+                state = e.read(channel)
+                response = f'{channel} has value {state}'
             else:
                 response = 'No command'
 
