@@ -22,7 +22,7 @@ class UDPClient:
             if user_input == 'quit':
                 break
             
-            if user_input in self.COMMANDS:
+            if user_input.split(' ')[0] in self.COMMANDS:
                 client_socket.sendto(user_input.encode('utf-8'), (self.server_ip, self.server_port))
                 
                 response = client_socket.recvfrom(self.buffer_size)
