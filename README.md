@@ -17,3 +17,10 @@ Just clone this repo
 ### To run client (for example, in the different terminal)
 
 `python run_client.py`
+
+### ToDo
+
+- [x] Написать клиент
+- [x] Написать сервер
+- [ ] Написать класс, который работает с файлом
+- [ ] Доделать клиент, чтобы он принимал команды
