@@ -6,7 +6,7 @@ class UDPClient:
         self.server_ip = server_ip
         self.server_port = server_port
         self.buffer_size = buffer_size
-        self.COMMANDS = ('check', 'set', 'ping')
+        self.COMMANDS = ('check', 'set', 'shutdown', 'register')
         
     def _initialize(self):
         udp_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
@@ -24,9 +24,8 @@ class UDPClient:
             
             if user_input.split(' ')[0] in self.COMMANDS:
                 client_socket.sendto(user_input.encode('utf-8'), (self.server_ip, self.server_port))
-                
                 response = client_socket.recvfrom(self.buffer_size)
-                
+                    
                 print(response)
                 print(f'Response from server: {response[0]}')
             else:

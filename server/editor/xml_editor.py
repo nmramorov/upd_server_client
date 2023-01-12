@@ -13,16 +13,27 @@ class XmlEditor:
         Упражнение 1: сделать так, чтобы при вызове этой функции и передачи ПРАВИЛЬНЫХ 
         аргументов channel и state в файле config появлялась измененная запись
         """
-        with open(path.abspath('') + '/storage/config', 'w', encoding="utf-8") as xml_bytes_file:
-            ...
+        with open(self.xml_path, 'r') as xml_bytes_file:
+            data = xml_bytes_file.readlines()
+        with open(self.xml_path, 'w') as xml_bytes_file:
+            if state == 'UP' or state == 'DOWN':
+                if channel == '1' or channel == '2' or channel == '3' or channel == '4' or channel == '5' or channel == '6':
+                    data[int(channel)] = channel + ':' + state +'\n'
+                    xml_bytes_file.writelines(data)
+                else:
+                    return 'Wrong channel'
+            else:
+                return 'Wrong state'
     
     def read(self, channel):
         """
         Упражнение 2: сделать так, чтобы при передаче ПРАВИЛЬНОГО аргумента channel выводился статус 
         этого канала из файла config
         """
-        with open(path.abspath('') + '/storage/config', 'rb') as xml_bytes_file:
-            ...
+        with open(self.xml_path, 'r') as xml_bytes_file:
+            for index, line in enumerate(xml_bytes_file):
+                if int(channel) == index:
+                    return line.split(':')[1][:-1]
             
 
 e = XmlEditor()
