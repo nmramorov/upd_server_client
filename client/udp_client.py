@@ -9,11 +9,11 @@ class UDPClient:
         self.server_port = server_port
         self.buffer_size = buffer_size
         self.COMMANDS = ('check', 'set', 'shutdown', 'register')
-        
+
     def _initialize(self):
         udp_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
         return udp_socket
-    
+
     def check(self, client_socket):
         while True:
             try:
@@ -21,13 +21,13 @@ class UDPClient:
                 print(f'Received response: {response[0]}')
             except OSError:
                 continue
-    
+
     def run(self):
         client_socket = self._initialize()
 
         print('UDP Client is running...')
         listening_thread = Thread(target=self.check, args=[client_socket])
-        
+
         while True:
             user_input = input()
 
@@ -41,4 +41,3 @@ class UDPClient:
             else:
                 print(f'No such command {user_input}')
         listening_thread.join(timeout=1.0)
- 
