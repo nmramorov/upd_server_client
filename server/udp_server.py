@@ -19,18 +19,16 @@ class UDPServer:
         print(respond_to)
         udp_socket.sendto(content.encode('utf-8'), respond_to)
         
-    def _respond_all(self, udp_socket, content):
+    def _respond_rest(self, udp_socket, client_address, content):
         for client in self.clients:
-            self._respond(udp_socket, content, client)
+            if client != client_address:
+                self._respond(udp_socket, content, client)
         
     def _get_command(self, payload):
         print(payload[1].split(':'))
         return payload[1].split(':')[1][2:]
 
     def run(self):
-        """
-        Упражнение : Интегрировать XmlEditor сюда
-        """
         response = None
         socket_server = self._initialize()
         print("UDP server up and listening")
@@ -56,7 +54,8 @@ class UDPServer:
                 channel, channel_state = params[2], params[3][:-1]
                 e.write(channel, channel_state)
                 response = f'Set {channel} to {channel_state}'
-                self._respond_all(socket_server, response)
+                self._respond(socket_server, response, address)
+                self._respond_rest(socket_server, address, response)
                 continue
             elif command == 'check':
                 channel = params[2][:-1]
